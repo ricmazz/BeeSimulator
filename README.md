@@ -1,25 +1,25 @@
 # BeeSimulator
 
-BeeSimulator È uma aplicaÁ„o em .NET que permite encontrar palavras v·lidas a partir de uma lista fornecida por URL, com base em uma letra central obrigatÛria e um conjunto de letras permitidas definidas pelo usu·rio.
+BeeSimulator √© uma aplica√ß√£o em .NET que permite encontrar palavras v√°lidas a partir de uma lista fornecida por URL, com base em uma letra central obrigat√≥ria e um conjunto de letras permitidas definidas pelo usu√°rio.
 
 ## Funcionalidades
 
-- Carregamento de uma lista de palavras a partir de uma URL fornecida pelo usu·rio.
-- DefiniÁ„o din‚mica da letra central obrigatÛria.
-- DefiniÁ„o din‚mica das letras permitidas.
-- ValidaÁ„o e filtragem das palavras com base nos critÈrios fornecidos.
-- 
-## Sugest„o de lista de palavras v·lidas disponÌveis
+- Carregamento de uma lista de palavras a partir de uma URL fornecida pelo usu√°rio.
+- Defini√ß√£o din√¢mica da letra central obrigat√≥ria.
+- Defini√ß√£o din√¢mica das letras permitidas.
+- Valida√ß√£o e filtragem das palavras com base nos crit√©rios fornecidos.
+  
+## Sugest√£o de lista de palavras v√°lidas dispon√≠veis
 - https://www.ime.usp.br/~pf/dicios/br-sem-acentos.txt
 - https://raw.githubusercontent.com/pythonprobr/palavras/master/palavras.txt
 
 ## Requisitos
 - .NET 6 ou superior
-- Conex„o ‡ Internet para baixar a lista de palavras
+- Conex√£o √† Internet para baixar a lista de palavras
 
 ## Como usar
 
-1. Clone este repositÛrio:
+1. Clone este reposit√≥rio:
 
     ```bash
     git clone https://github.com/ricmazz/BeeSimulator.git
@@ -32,41 +32,41 @@ BeeSimulator È uma aplicaÁ„o em .NET que permite encontrar palavras v·lidas a pa
     dotnet run
     ```
 
-3. Siga as instruÁıes no terminal:
-    - Insira a URL que contÈm a lista de palavras.
-    - Insira a letra central obrigatÛria.
-    - Insira as letras permitidas, separadas por espaÁo.
+3. Siga as instru√ß√µes no terminal:
+    - Insira a URL que cont√©m a lista de palavras.
+    - Insira a letra central obrigat√≥ria.
+    - Insira as letras permitidas, separadas por espa√ßo.
 
 ## Exemplo de Uso
 
 ```plaintext
 Insira a URL com as palavras:
 https://example.com/palavras.txt
-Insira a letra central obrigatÛria:
+Insira a letra central obrigat√≥ria:
 z
-Insira as letras permitidas (separadas por espaÁo):
+Insira as letras permitidas (separadas por espa√ßo):
 a e i o u t n r s
-Possibilidades de palavras v·lidas: 3
+Possibilidades de palavras v√°lidas: 3
 arroz
-raz„o
+raz√£o
 zona
 ```
 
 ## Estrutura do Projeto
 
-- `Program.cs`: ContÈm o ponto de entrada do programa e a lÛgica principal.
+- `Program.cs`: Cont√©m o ponto de entrada do programa e a l√≥gica principal.
 - `IWordLoader`: Interface para carregar palavras de diferentes fontes.
-- `UrlWordLoader`: ImplementaÁ„o de `IWordLoader` que carrega palavras de uma URL.
-- `IWordValidator`: Interface para validar palavras com base em critÈrios definidos.
-- `WordValidator`: ImplementaÁ„o de `IWordValidator` que valida palavras com base na letra central e nas letras permitidas.
+- `UrlWordLoader`: Implementa√ß√£o de `IWordLoader` que carrega palavras de uma URL.
+- `IWordValidator`: Interface para validar palavras com base em crit√©rios definidos.
+- `WordValidator`: Implementa√ß√£o de `IWordValidator` que valida palavras com base na letra central e nas letras permitidas.
 
-## ContribuiÁ„o
+## Contribui√ß√£o
 
-ContribuiÁıes s„o bem-vindas! Sinta-se ‡ vontade para abrir uma issue ou enviar um pull request.
+Contribui√ß√µes s√£o bem-vindas! Sinta-se √† vontade para abrir uma issue ou enviar um pull request.
 
-## LicenÁa
+## Licen√ßa
 
-Este projeto est· licenciado sob a licenÁa MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+Este projeto est√° licenciado sob a licen√ßa MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ## Autor
 
