@@ -8,16 +8,37 @@ namespace WordFinder
 {
     class Program
     {
-        static async Task Main()
+        static void Main(string[] args)
+        {
+            if (args.Length == 1)
+            {
+                int.TryParse(args[0], out int option);
+                Main(option).Wait();
+            }
+            else
+            {
+                Console.WriteLine("Argumento de opção de url inválido.");
+                return;
+            }
+        }
+        static async Task Main(int? option)
         {
             try
             {
-                Console.WriteLine("Insira a URL com as palavras:");
-                string? urlWords = Console.ReadLine();
+                //Console.WriteLine("Insira a URL com as palavras:");
+                string? urlWords = "";
 
-                if (string.IsNullOrWhiteSpace(urlWords))
+		        if(option == 1)
+		        {
+		        	urlWords = "https://www.ime.usp.br/~pf/dicios/br-sem-acentos.txt";
+		        }
+		        else if(option == 2)
+		        {
+		        	urlWords = "https://raw.githubusercontent.com/pythonprobr/palavras/master/palavras.txt";
+		        }
+                else
                 {
-                    Console.WriteLine("URL inválida.");
+                    Console.WriteLine("Argumento de opção de url inválido.");
                     return;
                 }
 
@@ -27,6 +48,7 @@ namespace WordFinder
                 Console.WriteLine("Insira as letras permitidas (separadas por espaço):");
                 string? allowedLettersInput = Console.ReadLine();
                 var allowedLetters = new HashSet<char>(allowedLettersInput?.Split(' ').SelectMany(s => s.ToCharArray()) ?? new char[0]);
+                
 
                 if (allowedLetters.Count == 0)
                 {
@@ -116,7 +138,32 @@ namespace WordFinder
         private bool IsValidWord(string word)
         {
             string lowerWord = word.ToLower();
-            return lowerWord.Length >= 4 && lowerWord.Length <= 8 &&
+            lowerWord = lowerWord
+                .Replace('ã', 'a')
+                .Replace('á', 'a')
+                .Replace('à', 'a')
+                .Replace('â', 'a')
+                .Replace('ä', 'a')
+                .Replace('é', 'e')
+                .Replace('è', 'e')
+                .Replace('ê', 'e')
+                .Replace('ê', 'e')
+                .Replace('ë', 'e')
+                .Replace('í', 'i')
+                .Replace('ì', 'i')
+                .Replace('î', 'i')
+                .Replace('ï', 'i')
+                .Replace('ó', 'o')
+                .Replace('ò', 'o')
+                .Replace('õ', 'o')
+                .Replace('ô', 'o')
+                .Replace('ö', 'o')
+                .Replace('ú', 'u')
+                .Replace('ù', 'u')
+                .Replace('ü', 'u')
+                .Replace('û', 'u')
+                .Replace('ç', 'c');
+            return lowerWord.Length >= 4 && lowerWord.Length <= 15 &&
                    lowerWord.Contains(_centerLetter) &&
                    lowerWord.All(_allowedLetters.Contains);
         }
