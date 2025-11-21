@@ -1,0 +1,12 @@
+#!/bin/sh
+# Block pushes when tests fail
+
+echo "Running test suite before push..."
+dotnet test
+status=$?
+
+if [ $status -ne 0 ]; then
+  echo "Tests failed. Push aborted."
+fi
+
+exit $status

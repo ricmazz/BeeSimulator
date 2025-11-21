@@ -50,6 +50,11 @@ zona
 - `IWordLoader` / `UrlWordLoader`: baixa e carrega as palavras da URL selecionada.
 - `IWordValidator` / `WordValidator`: normaliza (remove acentos) e aplica as regras de validação.
 
+## Garantir push só com testes passando
+- Há um hook em `.githooks/pre-push` que roda `dotnet test` e bloqueia o push se falhar.
+- Ative no seu clone: `git config core.hooksPath .githooks`
+- Para desativar temporariamente: `GIT_SKIP_HOOKS=1 git push`.
+
 ## Contribuição
 Pull requests e issues são bem-vindos. Sugestões de novas listas de palavras ou melhorias de usabilidade ajudam bastante.
 
