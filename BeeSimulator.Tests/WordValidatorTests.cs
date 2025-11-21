@@ -21,7 +21,7 @@ namespace BeeSimulator.Tests
 
             var result = validator.FindValidWords(input);
 
-            Assert.DoesNotContain("arroz", result); // missing center letter
+            Assert.DoesNotContain("aroma", result); // missing center letter
             Assert.Contains("arroz", result);
             Assert.Contains("zorro", result);
         }
