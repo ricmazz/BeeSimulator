@@ -34,7 +34,7 @@ namespace WordFinder
 		        }
 		        else if(option == 2)
 		        {
-		        	urlWords = "https://raw.githubusercontent.com/pythonprobr/palavras/master/palavras.txt";
+		        	urlWords = "https://raw.githubusercontent.com/pythonprobr/palavras/refs/heads/master/palavras.txt";
 		        }
                 else
                 {
@@ -161,8 +161,7 @@ namespace WordFinder
                 .Replace('ú', 'u')
                 .Replace('ù', 'u')
                 .Replace('ü', 'u')
-                .Replace('û', 'u')
-                .Replace('ç', 'c');
+                .Replace('û', 'u');
             return lowerWord.Length >= 4 && lowerWord.Length <= 15 &&
                    lowerWord.Contains(_centerLetter) &&
                    lowerWord.All(_allowedLetters.Contains);

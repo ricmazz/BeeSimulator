@@ -1,47 +1,40 @@
 # BeeSimulator
 
-BeeSimulator é uma aplicação em .NET que permite encontrar palavras válidas a partir de uma lista fornecida por URL, com base em uma letra central obrigatória e um conjunto de letras permitidas definidas pelo usuário.
-
-## Funcionalidades
-
-- Carregamento de uma lista de palavras a partir de uma URL fornecida pelo usuário.
-- Definição dinâmica da letra central obrigatória.
-- Definição dinâmica das letras permitidas.
-- Validação e filtragem das palavras com base nos critérios fornecidos.
-  
-## Sugestão de lista de palavras válidas disponíveis
-- https://www.ime.usp.br/~pf/dicios/br-sem-acentos.txt
-- https://raw.githubusercontent.com/pythonprobr/palavras/master/palavras.txt
+BeeSimulator é uma aplicação console em .NET 6 que ajuda a encontrar palavras válidas a partir de um dicionário online, usando uma letra central obrigatória e um conjunto de letras permitidas.
 
 ## Requisitos
 - .NET 6 ou superior
-- Conexão à Internet para baixar a lista de palavras
+- Conexão à Internet para baixar o dicionário escolhido
 
-## Como usar
+## Execução rápida
+O programa precisa receber um argumento numérico indicando qual fonte de palavras usar:
+- `1`: https://www.ime.usp.br/~pf/dicios/br-sem-acentos.txt
+- `2`: https://raw.githubusercontent.com/pythonprobr/palavras/master/palavras.txt
 
-1. Clone este repositório:
+```bash
+git clone https://github.com/ricmazz/BeeSimulator.git
+cd BeeSimulator
+dotnet run -- 1
+```
 
-    ```bash
-    git clone https://github.com/ricmazz/BeeSimulator.git
-    cd BeeSimulator
-    ```
+> Use `dotnet run -- 2` se preferir a segunda lista.
 
-2. Execute o programa:
+## Fluxo no terminal
+1) O programa baixa a lista de palavras da URL escolhida.  
+2) Ele pede:
+   - **Letra central**: uma letra obrigatória (qualquer outra letra informada será ignorada).  
+   - **Letras permitidas**: digite todas as letras que quer permitir, separadas por espaço (`a e i o u t n r s`).  
+3) A lista é filtrada e impressa, mostrando primeiro a quantidade total e depois cada palavra válida.
 
-    ```bash
-    dotnet run
-    ```
+## Critérios de validação
+- Palavras entre 4 e 15 caracteres.
+- A palavra precisa conter a letra central.
+- Todos os caracteres devem estar no conjunto de letras permitidas (a letra central é adicionada automaticamente a esse conjunto).
+- Acentos são removidos antes da validação (ex.: `á`, `ã`, `â` viram `a`).
 
-3. Siga as instruções no terminal:
-    - Insira a URL que contém a lista de palavras.
-    - Insira a letra central obrigatória.
-    - Insira as letras permitidas, separadas por espaço.
-
-## Exemplo de Uso
-
+### Exemplo de sessão
 ```plaintext
-Insira a URL com as palavras:
-https://example.com/palavras.txt
+dotnet run -- 1
 Insira a letra central obrigatória:
 z
 Insira as letras permitidas (separadas por espaço):
@@ -52,22 +45,16 @@ razão
 zona
 ```
 
-## Estrutura do Projeto
-
-- `Program.cs`: Contém o ponto de entrada do programa e a lógica principal.
-- `IWordLoader`: Interface para carregar palavras de diferentes fontes.
-- `UrlWordLoader`: Implementação de `IWordLoader` que carrega palavras de uma URL.
-- `IWordValidator`: Interface para validar palavras com base em critérios definidos.
-- `WordValidator`: Implementação de `IWordValidator` que valida palavras com base na letra central e nas letras permitidas.
+## Estrutura do projeto
+- `Program.cs`: ponto de entrada e orquestração do fluxo.
+- `IWordLoader` / `UrlWordLoader`: baixa e carrega as palavras da URL selecionada.
+- `IWordValidator` / `WordValidator`: normaliza (remove acentos) e aplica as regras de validação.
 
 ## Contribuição
-
-Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou enviar um pull request.
+Pull requests e issues são bem-vindos. Sugestões de novas listas de palavras ou melhorias de usabilidade ajudam bastante.
 
 ## Licença
-
-Este projeto está licenciado sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+Este projeto está licenciado sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
 
 ## Autor
-
 - [Ricardo Mazzarioli](https://github.com/ricmazz)
