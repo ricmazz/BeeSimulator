@@ -42,7 +42,9 @@ namespace BeeSimulator.Tests
         public void RejectsWordsOutsideLengthLimits()
         {
             var validator = CreateValidator('z', 'a', 'r', 'o');
-            var input = new List<string> { "zoo", "zoologistas" };
+            var tooShort = "zoo";
+            var tooLong = "z" + new string('a', 25);
+            var input = new List<string> { tooShort, tooLong };
 
             var result = validator.FindValidWords(input);
 
@@ -63,14 +65,27 @@ namespace BeeSimulator.Tests
         [Fact]
         public void NormalizesAccentedLetters()
         {
-            var validator = CreateValidator('a', 'r', 'z', 'o');
-            var input = new List<string> { "razão", "árvore", "zorra" };
+            var validator = CreateValidator('a', 'r', 'z', 'o', 'c');
+            var input = new List<string> { "razão", "árvore", "zorra", "ração" };
 
             var result = validator.FindValidWords(input);
 
             Assert.Contains("razão", result); // razão -> razao
             Assert.Contains("zorra", result);
+            Assert.Contains("ração", result); // ração -> racao (ç normalizado)
             Assert.DoesNotContain("árvore", result); // árvore contains v
+        }
+
+        [Fact]
+        public void AcceptsUppercaseInputAndWords()
+        {
+            var validator = CreateValidator('z', 'a', 'r', 'o');
+            var input = new List<string> { "ARROZ", "ZORRA" };
+
+            var result = validator.FindValidWords(input);
+
+            Assert.Contains("ARROZ", result);
+            Assert.Contains("ZORRA", result);
         }
     }
 }

@@ -10,44 +10,29 @@ namespace WordFinder
     {
         static void Main(string[] args)
         {
-            if (args.Length == 1)
-            {
-                int.TryParse(args[0], out int option);
-                Main(option).Wait();
-            }
-            else
-            {
-                Console.WriteLine("Argumento de opção de url inválido.");
-                return;
-            }
+            MainAsync().Wait();
         }
-        static async Task Main(int? option)
+
+        static async Task MainAsync()
         {
             try
             {
-                //Console.WriteLine("Insira a URL com as palavras:");
-                string? urlWords = "";
-
-		        if(option == 1)
-		        {
-		        	urlWords = "https://www.ime.usp.br/~pf/dicios/br-sem-acentos.txt";
-		        }
-		        else if(option == 2)
-		        {
-		        	urlWords = "https://raw.githubusercontent.com/pythonprobr/palavras/refs/heads/master/palavras.txt";
-		        }
-                else
+                var urls = new[]
                 {
-                    Console.WriteLine("Argumento de opção de url inválido.");
-                    return;
-                }
+                    "https://www.ime.usp.br/~pf/dicios/br-sem-acentos.txt",
+                    "https://raw.githubusercontent.com/pythonprobr/palavras/refs/heads/master/palavras.txt"
+                };
 
                 Console.WriteLine("Insira a letra central obrigatória:");
-                char centerLetter = Console.ReadLine()?.FirstOrDefault() ?? 'z';
+                char centerLetter = char.ToLowerInvariant(Console.ReadLine()?.FirstOrDefault() ?? 'z');
 
                 Console.WriteLine("Insira as letras permitidas (separadas por espaço):");
                 string? allowedLettersInput = Console.ReadLine();
-                var allowedLetters = new HashSet<char>(allowedLettersInput?.Split(' ').SelectMany(s => s.ToCharArray()) ?? new char[0]);
+                var allowedLetters = new HashSet<char>(
+                    allowedLettersInput?
+                        .ToLowerInvariant()
+                        .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                        .SelectMany(s => s.ToCharArray()) ?? Array.Empty<char>());
                 
 
                 if (allowedLetters.Count == 0)
@@ -58,7 +43,7 @@ namespace WordFinder
 
                 allowedLetters.Add(centerLetter);
 
-                IWordLoader wordLoader = new UrlWordLoader(urlWords);
+                IWordLoader wordLoader = new MultiUrlWordLoader(urls);
                 List<string> words = await wordLoader.LoadWordsAsync();
 
                 if (words.Count > 0)
@@ -89,22 +74,42 @@ namespace WordFinder
         Task<List<string>> LoadWordsAsync();
     }
 
-    public class UrlWordLoader : IWordLoader
+    public class MultiUrlWordLoader : IWordLoader
     {
-        private readonly string _url;
+        private readonly IEnumerable<string> _urls;
 
-        public UrlWordLoader(string url)
+        public MultiUrlWordLoader(IEnumerable<string> urls)
         {
-            _url = url;
+            _urls = urls;
         }
 
         public async Task<List<string>> LoadWordsAsync()
         {
             try
             {
+                var uniqueWords = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                 using HttpClient client = new HttpClient();
-                string content = await client.GetStringAsync(_url);
-                return content.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                foreach (var url in _urls)
+                {
+                    try
+                    {
+                        string content = await client.GetStringAsync(url);
+                        var words = content.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var word in words)
+                        {
+                            if (!string.IsNullOrWhiteSpace(word))
+                            {
+                                uniqueWords.Add(word.Trim());
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Erro ao baixar ou processar o arquivo {url}: {ex.Message}");
+                    }
+                }
+
+                return uniqueWords.ToList();
             }
             catch (Exception ex)
             {
@@ -162,7 +167,8 @@ namespace WordFinder
                 .Replace('ù', 'u')
                 .Replace('ü', 'u')
                 .Replace('û', 'u');
-            return lowerWord.Length >= 4 && lowerWord.Length <= 15 &&
+            lowerWord = lowerWord.Replace('ç', 'c');
+            return lowerWord.Length >= 4 && lowerWord.Length <= 20 &&
                    lowerWord.Contains(_centerLetter) &&
                    lowerWord.All(_allowedLetters.Contains);
         }

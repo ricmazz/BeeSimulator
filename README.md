@@ -27,7 +27,7 @@ dotnet run -- 1
 3) A lista é filtrada e impressa, mostrando primeiro a quantidade total e depois cada palavra válida.
 
 ## Critérios de validação
-- Palavras entre 4 e 15 caracteres.
+- Palavras entre 4 e 20 caracteres.
 - A palavra precisa conter a letra central.
 - Todos os caracteres devem estar no conjunto de letras permitidas (a letra central é adicionada automaticamente a esse conjunto).
 - Acentos são removidos antes da validação (ex.: `á`, `ã`, `â` viram `a`).
